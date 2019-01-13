@@ -1,5 +1,6 @@
 miniLSAR
 ========
+[![Cirrus CI](https://api.cirrus-ci.com/github/neverwin/miniLSAR.svg?branch=master)](https://cirrus-ci.com/github/neverwin/miniLSAR)
 
 Mini Version LSAR using libarchive
 

@@ -1,0 +1,7 @@
+container:
+  image: gcc:latest
+task:
+  build_script:
+  - apt-get update -y
+  - apt-get install -y libarchive-dev
+  - make
