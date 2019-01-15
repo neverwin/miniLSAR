@@ -21,9 +21,37 @@
  **/
  
 #include <stdio.h>
+#include <stdlib.h>
 #include <getopt.h>
 #include <archive.h>
 
+static const char help_str[] = "\
+minilsar %s, mini lsar clone.\n\
+Usage: minilsar [options] archives\n\
+\n\
+Abailable Options:\n\
+-help (-h)                      Display this information.\n\
+-version (-v)                   Print version and exit.\n";
+
+
 int main(int argc, char ** argv) {
-    return 0;
+    opterr = 0;
+    static struct option long_options[] = {
+        { "help", no_argument, NULL, 'h' },
+        { "version", no_argument, NULL, 'v' },
+        { NULL, 0, NULL, 0 }
+    };
+    int op;
+    while (~(op = getopt_long_only(argc, argv, "vhlLtp:e:E:ij", long_options, NULL))) {
+        switch (op) {
+        case 'v':
+            puts(VERSION);
+            return EXIT_SUCCESS;
+        case 'h':
+        case '?':
+            printf(help_str, VERSION);
+            return op == '?' ? EXIT_FAILURE : EXIT_SUCCESS;
+        }
+    }
+    return EXIT_SUCCESS;
 }

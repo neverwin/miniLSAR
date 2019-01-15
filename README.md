@@ -16,8 +16,8 @@ minilsar example.zip
 
 ## TODO
 
-* [ ] -v, -version
-* [ ] -h, -help
+* [x] -v, -version
+* [x] -h, -help
 * [ ] -l, -long
 * [ ] -L, -verylong
 * [ ] -t, -test
