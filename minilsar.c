@@ -22,8 +22,10 @@
  
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <getopt.h>
 #include <archive.h>
+#include <archive_entry.h>
 
 static const char help_str[] = "\
 minilsar %s, mini lsar clone.\n\
@@ -51,6 +53,35 @@ int main(int argc, char ** argv) {
         case '?':
             printf(help_str, VERSION);
             return op == '?' ? EXIT_FAILURE : EXIT_SUCCESS;
+        }
+    }
+    if (optind >= argc) {
+        printf(help_str, VERSION);
+        return EXIT_FAILURE;
+    }
+    while (optind < argc) {
+        printf("%s: ", argv[optind]);
+        struct archive *a = archive_read_new();;
+        struct archive_entry *entry;
+        archive_read_support_filter_all(a);
+        archive_read_support_format_all(a);
+        int r = archive_read_open_filename(a, argv[optind++], 10240);
+        if (r != ARCHIVE_OK) {
+            puts("cannot open archive");
+            return EXIT_FAILURE;
+        }
+        bool first = true;
+        while (archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+            if (first) {
+                puts(archive_format_name(a));
+                first = false;
+            }
+            puts(archive_entry_pathname(entry));
+            archive_read_data_skip(a);
+        }
+        r = archive_read_free(a);
+        if (r != ARCHIVE_OK) {
+            return EXIT_FAILURE;
         }
     }
     return EXIT_SUCCESS;
