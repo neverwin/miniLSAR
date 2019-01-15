@@ -1,2 +1,2 @@
 minilsar: minilsar.c
-	$(CC) -o minilsar minilsar.c -larchive
+	$(CC) -o minilsar -std=c99 minilsar.c -larchive
